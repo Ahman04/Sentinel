@@ -1,0 +1,36 @@
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+
+# SQLite test database created by pytest
+backend/test.db
+
+# ── Environment variables ────────────────────────────────
+# Never commit secrets
+.env
+.env.local
+.env.production
+.env*.local
+
+# ── Next.js ──────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.vercel/
+
+# ── Docker ───────────────────────────────────────────────
+# Local override files (port changes, dev tweaks etc.)
+docker-compose.override.yml
+
+# ── IDE & OS ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
