@@ -1,0 +1,79 @@
+# docker-compose.yml — Orchestrates all three Sentinel services.
+#
+# Services:
+#   db       — PostgreSQL database, data persisted in a named volume
+#   backend  — FastAPI app, waits for db to be healthy before starting
+#   frontend — Next.js app, points to the backend via NEXT_PUBLIC_API_URL
+#
+# Run everything:
+#   docker-compose up --build
+#
+# Ports:
+#   Frontend  → http://localhost:3000
+#   Backend   → http://localhost:8000
+#   API Docs  → http://localhost:8000/docs
+
+version: "3.9"
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — the database
+  # ---------------------------------------------------------------------------
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: sentinel
+      POSTGRES_DB: sentinel
+    volumes:
+      # Named volume keeps data between container restarts
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      # Backend waits for this check to pass before starting
+      test: ["CMD-SHELL", "pg_isready -U sentinel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # FastAPI backend
+  # ---------------------------------------------------------------------------
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql://sentinel:sentinel@db:5432/sentinel
+      SECRET_KEY: change-this-in-production
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        # Waits for the healthcheck above — prevents connection errors on startup
+        condition: service_healthy
+    volumes:
+      # Hot reload — code changes reflect without rebuilding the container
+      - ./backend:/app
+
+  # ---------------------------------------------------------------------------
+  # Next.js frontend
+  # ---------------------------------------------------------------------------
+  frontend:
+    build: ./frontend
+    environment:
+      # The browser needs the public URL to reach the backend API
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      # Hot reload for frontend code changes
+      - ./frontend:/app
+      # Prevents host node_modules from overriding the container's
+      - /app/node_modules
+
+volumes:
+  postgres_data:
