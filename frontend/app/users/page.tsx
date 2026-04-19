@@ -1,13 +1,10 @@
-// app/users/page.tsx — Users list page.
-// Admin-only: lists all users with their status, role, and action buttons.
-// Non-admins who land here will see a 403 error from the API.
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import { listUsers, deleteUser, User } from "@/lib/api";
+import { listUsers, deleteUser, getMe, User } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 
 const PROTECTED_EMAIL = "admin@sentinel.io";
@@ -21,9 +18,12 @@ export default function UsersPage() {
   useEffect(() => {
     const token = getToken();
     if (!token) { router.push("/login"); return; }
-    listUsers(token)
-      .then(setUsers)
-      .catch((e) => setError(e.message));
+    getMe(token).then((me) => {
+      if (!me.is_admin) { router.push("/dashboard"); return; }
+      listUsers(token)
+        .then(setUsers)
+        .catch((e) => setError(e.message));
+    }).catch(() => router.push("/login"));
   }, [router]);
 
   async function handleDelete(user: User) {
@@ -46,12 +46,12 @@ export default function UsersPage() {
       <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-gray-900">Users</h1>
-          <a
+          <Link
             href="/users/new"
             className="bg-[#1B3A28] hover:bg-[#163020] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             + New User
-          </a>
+          </Link>
         </div>
 
         {error && (
@@ -81,39 +81,26 @@ export default function UsersPage() {
               )}
               {users.map((u) => (
                 <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">
-                    {u.full_name}
-                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900">{u.full_name}</td>
                   <td className="px-6 py-4 text-gray-600">{u.email}</td>
                   <td className="px-6 py-4">
-                    <span
-                      className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
-                        u.is_admin
-                          ? "bg-[#C8DBBC] text-[#1B3A28]"
-                          : "bg-gray-100 text-gray-600"
-                      }`}
-                    >
+                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
+                      u.is_admin ? "bg-[#C8DBBC] text-[#1B3A28]" : "bg-gray-100 text-gray-600"
+                    }`}>
                       {u.is_admin ? "Admin" : "User"}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span
-                      className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
-                        u.is_active
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
+                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
+                      u.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"
+                    }`}>
                       {u.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="px-6 py-4 flex gap-3">
-                    <a
-                      href={`/users/${u.id}`}
-                      className="text-[#2D5E3A] hover:underline"
-                    >
+                    <Link href={`/users/${u.id}`} className="text-[#2D5E3A] hover:underline">
                       Edit
-                    </a>
+                    </Link>
                     {u.email !== PROTECTED_EMAIL && (
                       <button
                         onClick={() => handleDelete(u)}

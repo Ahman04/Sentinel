@@ -5,6 +5,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { listPrograms, deleteProgram, Program, getMe } from "@/lib/api";
 import { getToken } from "@/lib/auth";
@@ -54,12 +55,12 @@ export default function ProgramsPage() {
             <p className="text-sm text-[#7A9A80] mt-0.5">NGO initiatives and projects</p>
           </div>
           {isAdmin && (
-            <a
+            <Link
               href="/programs/new"
               className="bg-[#1B3A28] hover:bg-[#163020] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
             >
               + New Program
-            </a>
+            </Link>
           )}
         </div>
 
@@ -71,7 +72,7 @@ export default function ProgramsPage() {
 
         {programs.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 px-6 py-16 text-center text-gray-400 text-sm">
-            No programs yet.{isAdmin && <span> <a href="/programs/new" className="text-[#2D5E3A] hover:underline">Create the first one →</a></span>}
+            No programs yet.{isAdmin && <span> <Link href="/programs/new" className="text-[#2D5E3A] hover:underline">Create the first one →</Link></span>}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -94,14 +95,14 @@ export default function ProgramsPage() {
                 </div>
 
                 <div className="flex gap-3 pt-1 border-t border-gray-100">
-                  <a href={`/programs/${p.id}`} className="text-xs text-[#2D5E3A] hover:underline font-medium">
+                  <Link href={`/programs/${p.id}`} className="text-xs text-[#2D5E3A] hover:underline font-medium">
                     View
-                  </a>
+                  </Link>
                   {isAdmin && (
                     <>
-                      <a href={`/programs/${p.id}/edit`} className="text-xs text-[#2D5E3A] hover:underline">
+                      <Link href={`/programs/${p.id}/edit`} className="text-xs text-[#2D5E3A] hover:underline">
                         Edit
-                      </a>
+                      </Link>
                       <button
                         onClick={() => handleDelete(p)}
                         disabled={deletingId === p.id}
