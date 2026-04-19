@@ -39,7 +39,7 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-md p-8">
         {/* Header */}
-        <h1 className="text-2xl font-bold text-indigo-800 mb-1">Sentinel</h1>
+        <h1 className="text-2xl font-bold text-[#1B3A28] mb-1">HopeAccess</h1>
         <p className="text-sm text-gray-500 mb-6">Sign in to your account</p>
 
         {/* Error banner */}
@@ -59,7 +59,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1B3A28]"
               placeholder="admin@sentinel.io"
             />
           </div>
@@ -73,14 +73,14 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#1B3A28]"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white font-medium py-2 rounded-lg text-sm transition-colors"
+            className="w-full bg-[#1B3A28] hover:bg-[#163020] disabled:opacity-50 text-white font-medium py-2 rounded-lg text-sm transition-colors"
           >
             {loading ? "Signing in…" : "Sign in"}
           </button>

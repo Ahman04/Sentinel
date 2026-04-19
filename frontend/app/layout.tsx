@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sentinel",
-  description: "Role-based access control and user management platform",
+  title: "HopeAccess",
+  description: "NGO and charity staff access management platform",
 };
 
 export default function RootLayout({

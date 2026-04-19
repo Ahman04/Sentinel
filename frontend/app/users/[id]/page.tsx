@@ -100,7 +100,7 @@ export default function EditUserPage() {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#1B3A28]"
             />
           </div>
 
@@ -110,7 +110,7 @@ export default function EditUserPage() {
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="accent-indigo-600"
+                className="accent-[#1B3A28]"
               />
               Active account
             </label>
@@ -132,7 +132,7 @@ export default function EditUserPage() {
                       type="checkbox"
                       checked={value}
                       onChange={(e) => setter(e.target.checked)}
-                      className="accent-indigo-600"
+                      className="accent-[#1B3A28]"
                     />
                     {label}
                   </label>
@@ -145,7 +145,7 @@ export default function EditUserPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white text-sm font-medium py-2 rounded-lg transition-colors"
+              className="flex-1 bg-[#1B3A28] hover:bg-[#163020] disabled:opacity-50 text-white text-sm font-medium py-2 rounded-lg transition-colors"
             >
               {loading ? "Saving…" : "Save Changes"}
             </button>

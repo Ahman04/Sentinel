@@ -22,16 +22,16 @@ export default function Navbar() {
   const linkClass = (href: string) =>
     `px-3 py-2 rounded text-sm font-medium transition-colors ${
       pathname === href
-        ? "bg-indigo-700 text-white"
-        : "text-indigo-100 hover:bg-indigo-700 hover:text-white"
+        ? "bg-[#1B3A28] text-white"
+        : "text-[#C8DBBC] hover:bg-[#1B3A28] hover:text-white"
     }`;
 
   return (
-    <nav className="bg-indigo-800 shadow">
+    <nav className="bg-[#1B3A28] shadow">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
         {/* Brand */}
         <span className="text-white font-bold text-lg tracking-wide">
-          Sentinel
+          HopeAccess
         </span>
 
         {/* Nav links */}
@@ -50,7 +50,7 @@ export default function Navbar() {
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="text-sm text-indigo-200 hover:text-white transition-colors"
+          className="text-sm text-[#C8DBBC] hover:text-white transition-colors"
         >
           Logout
         </button>

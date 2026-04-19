@@ -60,11 +60,11 @@ export default function DashboardPage() {
                 key={label}
                 className={`flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium border ${
                   active
-                    ? "bg-indigo-50 border-indigo-200 text-indigo-800"
+                    ? "bg-[#F0F7EC] border-[#C8DBBC] text-[#1B3A28]"
                     : "bg-gray-50 border-gray-200 text-gray-400"
                 }`}
               >
-                <span className={active ? "text-indigo-500" : "text-gray-300"}>
+                <span className={active ? "text-[#2D5E3A]" : "text-gray-300"}>
                   {active ? "✓" : "✗"}
                 </span>
                 {label}
@@ -78,13 +78,13 @@ export default function DashboardPage() {
           <div className="mt-6 flex gap-3">
             <a
               href="/users"
-              className="flex-1 text-center bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-medium py-3 rounded-xl transition-colors"
+              className="flex-1 text-center bg-[#1B3A28] hover:bg-[#163020] text-white text-sm font-medium py-3 rounded-xl transition-colors"
             >
               Manage Users
             </a>
             <a
               href="/users/new"
-              className="flex-1 text-center bg-white border border-indigo-300 hover:border-indigo-500 text-indigo-700 text-sm font-medium py-3 rounded-xl transition-colors"
+              className="flex-1 text-center bg-white border border-[#C8DBBC] hover:border-[#1B3A28] text-[#1B3A28] text-sm font-medium py-3 rounded-xl transition-colors"
             >
               Create User
             </a>

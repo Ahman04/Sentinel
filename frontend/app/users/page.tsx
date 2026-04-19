@@ -48,7 +48,7 @@ export default function UsersPage() {
           <h1 className="text-xl font-bold text-gray-900">Users</h1>
           <a
             href="/users/new"
-            className="bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            className="bg-[#1B3A28] hover:bg-[#163020] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             + New User
           </a>
@@ -89,7 +89,7 @@ export default function UsersPage() {
                     <span
                       className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
                         u.is_admin
-                          ? "bg-indigo-100 text-indigo-700"
+                          ? "bg-[#C8DBBC] text-[#1B3A28]"
                           : "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -110,7 +110,7 @@ export default function UsersPage() {
                   <td className="px-6 py-4 flex gap-3">
                     <a
                       href={`/users/${u.id}`}
-                      className="text-indigo-600 hover:underline"
+                      className="text-[#2D5E3A] hover:underline"
                     >
                       Edit
                     </a>

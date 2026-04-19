@@ -95,10 +95,10 @@ export default function ProfilePage() {
               <div
                 key={label}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium border ${
-                  active ? "bg-indigo-50 border-indigo-200 text-indigo-800" : "bg-gray-50 border-gray-200 text-gray-400"
+                  active ? "bg-[#F0F7EC] border-[#C8DBBC] text-[#1B3A28]" : "bg-gray-50 border-gray-200 text-gray-400"
                 }`}
               >
-                <span className={active ? "text-indigo-500" : "text-gray-300"}>{active ? "✓" : "✗"}</span>
+                <span className={active ? "text-[#2D5E3A]" : "text-gray-300"}>{active ? "✓" : "✗"}</span>
                 {label}
               </div>
             ))}
@@ -126,12 +126,12 @@ export default function ProfilePage() {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#1B3A28]"
             />
             <button
               type="submit"
               disabled={loading}
-              className="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
+              className="bg-[#1B3A28] hover:bg-[#163020] disabled:opacity-50 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
             >
               {loading ? "Saving…" : "Save"}
             </button>
