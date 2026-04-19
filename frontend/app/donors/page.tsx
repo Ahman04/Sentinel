@@ -107,8 +107,8 @@ export default function DonorsPage() {
 
                 {/* Contact */}
                 <div className="space-y-0.5 text-xs text-gray-500">
-                  {d.email && <p>✉ {d.email}</p>}
-                  {d.phone && <p>📞 {d.phone}</p>}
+                  {d.email && <p>{d.email}</p>}
+                  {d.phone && <p>{d.phone}</p>}
                 </div>
 
                 {/* Donation count badge */}

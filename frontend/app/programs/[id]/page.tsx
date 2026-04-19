@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { getProgram, listProgramMembers, removeProgramMember, addProgramMember, listUsers, getMe, Program, ProgramMember, User } from "@/lib/api";
 import { getToken } from "@/lib/auth";
@@ -100,18 +101,18 @@ export default function ProgramDetailPage() {
           </div>
           {program.description && <p className="text-[#C8DBBC] text-sm leading-relaxed">{program.description}</p>}
           <div className="flex gap-6 text-xs text-[#7A9A80]">
-            <span>👥 {program.member_count} member{program.member_count !== 1 ? "s" : ""}</span>
-            {program.start_date && <span>📅 Started {program.start_date}</span>}
-            <span>🗓 Created {new Date(program.created_at).toLocaleDateString()}</span>
+            <span>{program.member_count} member{program.member_count !== 1 ? "s" : ""}</span>
+            {program.start_date && <span>Started {program.start_date}</span>}
+            <span>Created {new Date(program.created_at).toLocaleDateString()}</span>
           </div>
           <div className="flex gap-2 flex-wrap mt-2">
-            <a href={`/programs/${id}/beneficiaries`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
+            <Link href={`/programs/${id}/beneficiaries`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
               Beneficiaries
-            </a>
+            </Link>
             {isAdmin && (
-              <a href={`/programs/${id}/edit`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
+              <Link href={`/programs/${id}/edit`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
                 Edit Program
-              </a>
+              </Link>
             )}
           </div>
         </div>

@@ -135,9 +135,9 @@ export default function DonorDetailPage() {
           </div>
 
           <div className="flex gap-6 text-xs text-[#7A9A80] flex-wrap">
-            {donor.email && <span>✉ {donor.email}</span>}
-            {donor.phone && <span>📞 {donor.phone}</span>}
-            <span>🎁 {donor.donation_count} donation{donor.donation_count !== 1 ? "s" : ""}</span>
+            {donor.email && <span>{donor.email}</span>}
+            {donor.phone && <span>{donor.phone}</span>}
+            <span>{donor.donation_count} donation{donor.donation_count !== 1 ? "s" : ""}</span>
           </div>
 
           {/* Total donated summary */}

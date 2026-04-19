@@ -90,8 +90,8 @@ export default function ProgramsPage() {
                 )}
 
                 <div className="flex items-center gap-4 text-xs text-[#7A9A80]">
-                  <span>👥 {p.member_count} member{p.member_count !== 1 ? "s" : ""}</span>
-                  {p.start_date && <span>📅 {p.start_date}</span>}
+                  <span>{p.member_count} member{p.member_count !== 1 ? "s" : ""}</span>
+                  {p.start_date && <span>{p.start_date}</span>}
                 </div>
 
                 <div className="flex gap-3 pt-1 border-t border-gray-100">
