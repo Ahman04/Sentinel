@@ -404,3 +404,31 @@ export async function deleteDonation(token: string, donorId: string, donationId:
   });
   await checkResponse(res);
 }
+
+// ── Stats ──────────────────────────────────────────────────────────────────
+
+export interface AdminStats {
+  scope: "global";
+  total_users: number;
+  active_programs: number;
+  total_programs: number;
+  total_beneficiaries: number;
+  total_donors: number;
+  total_donations: number;
+  donation_total_usd: number;
+}
+
+export interface StaffStats {
+  scope: "personal";
+  assigned_programs: number;
+  active_programs: number;
+  total_beneficiaries: number;
+}
+
+export type Stats = AdminStats | StaffStats;
+
+export async function getStats(token: string): Promise<Stats> {
+  const res = await fetch(`${BASE_URL}/stats`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}

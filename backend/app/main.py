@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from app.database import engine, SessionLocal, Base
 from app.models import User
 from app.auth import hash_password
-from app.routers import auth, users, programs, beneficiaries, donors
+from app.routers import auth, users, programs, beneficiaries, donors, stats
 
 # Creates all tables defined in models.py if they don't already exist
 Base.metadata.create_all(bind=engine)
@@ -41,6 +41,7 @@ app.include_router(programs.router, prefix="/programs", tags=["programs"])
 app.include_router(beneficiaries.router, prefix="/programs", tags=["beneficiaries"])
 # Donor routes — admin-only
 app.include_router(donors.router, prefix="/donors", tags=["donors"])
+app.include_router(stats.router, tags=["stats"])
 
 
 @app.on_event("startup")
