@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from app.database import engine, SessionLocal, Base
 from app.models import User
 from app.auth import hash_password
-from app.routers import auth, users, programs
+from app.routers import auth, users, programs, beneficiaries
 
 # Creates all tables defined in models.py if they don't already exist
 Base.metadata.create_all(bind=engine)
@@ -37,6 +37,8 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(users.router, prefix="/users", tags=["users"])
 app.include_router(programs.router, prefix="/programs", tags=["programs"])
+# Beneficiary routes are nested under /programs — e.g. /programs/{id}/beneficiaries
+app.include_router(beneficiaries.router, prefix="/programs", tags=["beneficiaries"])
 
 
 @app.on_event("startup")

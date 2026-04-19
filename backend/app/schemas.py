@@ -121,3 +121,42 @@ class ProgramResponse(BaseModel):
 class AddMemberPayload(BaseModel):
     user_id: uuid.UUID
     role: str = "member"
+
+
+# ---------------------------------------------------------------------------
+# Beneficiaries
+# ---------------------------------------------------------------------------
+
+class BeneficiaryCreate(BaseModel):
+    """Payload to register a new beneficiary under a program."""
+    full_name: str
+    age: Optional[str] = None
+    gender: Optional[str] = None
+    location: Optional[str] = None
+    notes: Optional[str] = None
+    date_registered: Optional[str] = None
+
+
+class BeneficiaryUpdate(BaseModel):
+    """All fields optional — only provided fields are updated."""
+    full_name: Optional[str] = None
+    age: Optional[str] = None
+    gender: Optional[str] = None
+    location: Optional[str] = None
+    notes: Optional[str] = None
+    date_registered: Optional[str] = None
+
+
+class BeneficiaryResponse(BaseModel):
+    id: uuid.UUID
+    program_id: uuid.UUID
+    full_name: str
+    age: Optional[str]
+    gender: Optional[str]
+    location: Optional[str]
+    notes: Optional[str]
+    date_registered: Optional[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

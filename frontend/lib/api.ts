@@ -216,3 +216,77 @@ export async function removeProgramMember(token: string, programId: string, user
   });
   await checkResponse(res);
 }
+
+// ── Beneficiaries ──────────────────────────────────────────────────────────
+
+export interface Beneficiary {
+  id: string;
+  program_id: string;
+  full_name: string;
+  age: string | null;
+  gender: string | null;
+  location: string | null;
+  notes: string | null;
+  date_registered: string | null;
+  created_at: string;
+}
+
+export interface CreateBeneficiaryPayload {
+  full_name: string;
+  age?: string;
+  gender?: string;
+  location?: string;
+  notes?: string;
+  date_registered?: string;
+}
+
+export interface UpdateBeneficiaryPayload {
+  full_name?: string;
+  age?: string;
+  gender?: string;
+  location?: string;
+  notes?: string;
+  date_registered?: string;
+}
+
+export async function listBeneficiaries(token: string, programId: string, search?: string): Promise<Beneficiary[]> {
+  const url = new URL(`${BASE_URL}/programs/${programId}/beneficiaries`);
+  if (search) url.searchParams.set("search", search);
+  const res = await fetch(url.toString(), { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function getBeneficiary(token: string, programId: string, id: string): Promise<Beneficiary> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/beneficiaries/${id}`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function createBeneficiary(token: string, programId: string, payload: CreateBeneficiaryPayload): Promise<Beneficiary> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/beneficiaries`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function updateBeneficiary(token: string, programId: string, id: string, payload: UpdateBeneficiaryPayload): Promise<Beneficiary> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/beneficiaries/${id}`, {
+    method: "PUT",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function deleteBeneficiary(token: string, programId: string, id: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/beneficiaries/${id}`, {
+    method: "DELETE",
+    headers: headers(token),
+  });
+  await checkResponse(res);
+}

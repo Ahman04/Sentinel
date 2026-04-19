@@ -57,7 +57,8 @@ class Program(Base):
     start_date  = Column(String, nullable=True)   # stored as ISO date string (YYYY-MM-DD)
     created_at  = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    members = relationship("ProgramMember", back_populates="program", cascade="all, delete-orphan")
+    members       = relationship("ProgramMember", back_populates="program", cascade="all, delete-orphan")
+    beneficiaries = relationship("Beneficiary", back_populates="program", cascade="all, delete-orphan")
 
 
 class ProgramMember(Base):
@@ -73,3 +74,23 @@ class ProgramMember(Base):
 
     program = relationship("Program", back_populates="members")
     user    = relationship("User", back_populates="programs")
+
+
+class Beneficiary(Base):
+    """
+    A person receiving services from a program.
+    Linked to a program so field staff can manage beneficiaries within their assigned program.
+    """
+    __tablename__ = "beneficiaries"
+
+    id              = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    program_id      = Column(UUID(as_uuid=True), ForeignKey("programs.id"), nullable=False)
+    full_name       = Column(String, nullable=False)
+    age             = Column(String, nullable=True)   # stored as string to allow ranges like "18-25"
+    gender          = Column(String, nullable=True)   # "male" | "female" | "other" | "prefer_not_to_say"
+    location        = Column(String, nullable=True)
+    notes           = Column(Text, nullable=True)
+    date_registered = Column(String, nullable=True)   # ISO date string (YYYY-MM-DD)
+    created_at      = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    program = relationship("Program", back_populates="beneficiaries")

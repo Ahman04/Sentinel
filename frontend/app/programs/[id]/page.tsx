@@ -104,11 +104,16 @@ export default function ProgramDetailPage() {
             {program.start_date && <span>📅 Started {program.start_date}</span>}
             <span>🗓 Created {new Date(program.created_at).toLocaleDateString()}</span>
           </div>
-          {isAdmin && (
-            <a href={`/programs/${id}/edit`} className="inline-block mt-2 text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
-              Edit Program
+          <div className="flex gap-2 flex-wrap mt-2">
+            <a href={`/programs/${id}/beneficiaries`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
+              Beneficiaries
             </a>
-          )}
+            {isAdmin && (
+              <a href={`/programs/${id}/edit`} className="text-xs text-[#C8DBBC] border border-[#C8DBBC]/40 px-3 py-1 rounded-full hover:bg-[#2D5E3A] transition-colors">
+                Edit Program
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Members list */}
