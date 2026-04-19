@@ -290,3 +290,117 @@ export async function deleteBeneficiary(token: string, programId: string, id: st
   });
   await checkResponse(res);
 }
+
+// ── Donors ─────────────────────────────────────────────────────────────────
+
+export interface Donor {
+  id: string;
+  full_name: string;
+  email: string | null;
+  phone: string | null;
+  organization: string | null;
+  notes: string | null;
+  created_at: string;
+  donation_count: number;
+}
+
+export interface Donation {
+  id: string;
+  donor_id: string;
+  program_id: string | null;
+  amount: string;
+  currency: string;
+  date: string | null;
+  notes: string | null;
+  created_at: string;
+}
+
+export interface CreateDonorPayload {
+  full_name: string;
+  email?: string;
+  phone?: string;
+  organization?: string;
+  notes?: string;
+}
+
+export interface UpdateDonorPayload {
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  organization?: string;
+  notes?: string;
+}
+
+export interface CreateDonationPayload {
+  amount: string;
+  currency?: string;
+  date?: string;
+  program_id?: string;
+  notes?: string;
+}
+
+export async function listDonors(token: string, search?: string): Promise<Donor[]> {
+  const url = new URL(`${BASE_URL}/donors`);
+  if (search) url.searchParams.set("search", search);
+  const res = await fetch(url.toString(), { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function getDonor(token: string, id: string): Promise<Donor> {
+  const res = await fetch(`${BASE_URL}/donors/${id}`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function createDonor(token: string, payload: CreateDonorPayload): Promise<Donor> {
+  const res = await fetch(`${BASE_URL}/donors`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function updateDonor(token: string, id: string, payload: UpdateDonorPayload): Promise<Donor> {
+  const res = await fetch(`${BASE_URL}/donors/${id}`, {
+    method: "PUT",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function deleteDonor(token: string, id: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/donors/${id}`, {
+    method: "DELETE",
+    headers: headers(token),
+  });
+  await checkResponse(res);
+}
+
+export async function listDonations(token: string, donorId: string): Promise<Donation[]> {
+  const res = await fetch(`${BASE_URL}/donors/${donorId}/donations`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function createDonation(token: string, donorId: string, payload: CreateDonationPayload): Promise<Donation> {
+  const res = await fetch(`${BASE_URL}/donors/${donorId}/donations`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function deleteDonation(token: string, donorId: string, donationId: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/donors/${donorId}/donations/${donationId}`, {
+    method: "DELETE",
+    headers: headers(token),
+  });
+  await checkResponse(res);
+}

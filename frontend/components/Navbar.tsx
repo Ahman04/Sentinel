@@ -45,6 +45,9 @@ export default function Navbar() {
           <Link href="/programs" className={linkClass("/programs")}>
             Programs
           </Link>
+          <Link href="/donors" className={linkClass("/donors")}>
+            Donors
+          </Link>
           <Link href="/profile" className={linkClass("/profile")}>
             My Profile
           </Link>

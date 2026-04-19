@@ -160,3 +160,62 @@ class BeneficiaryResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ---------------------------------------------------------------------------
+# Donors & Donations  (admin-only)
+# ---------------------------------------------------------------------------
+
+class DonorCreate(BaseModel):
+    """Payload to register a new donor."""
+    full_name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    organization: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class DonorUpdate(BaseModel):
+    """All fields optional — only provided fields are updated."""
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    organization: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class DonorResponse(BaseModel):
+    id: uuid.UUID
+    full_name: str
+    email: Optional[str]
+    phone: Optional[str]
+    organization: Optional[str]
+    notes: Optional[str]
+    created_at: datetime
+    donation_count: int = 0   # computed in the router
+
+    class Config:
+        from_attributes = True
+
+
+class DonationCreate(BaseModel):
+    """Payload to record a donation from a donor."""
+    amount: str               # e.g. "5000.00"
+    currency: str = "USD"
+    date: Optional[str] = None
+    program_id: Optional[uuid.UUID] = None
+    notes: Optional[str] = None
+
+
+class DonationResponse(BaseModel):
+    id: uuid.UUID
+    donor_id: uuid.UUID
+    program_id: Optional[uuid.UUID]
+    amount: str
+    currency: str
+    date: Optional[str]
+    notes: Optional[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

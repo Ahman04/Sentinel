@@ -94,3 +94,42 @@ class Beneficiary(Base):
     created_at      = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     program = relationship("Program", back_populates="beneficiaries")
+
+
+class Donor(Base):
+    """
+    An individual or organisation that donates to the NGO.
+    Donor records are admin-only — not visible to regular staff.
+    """
+    __tablename__ = "donors"
+
+    id           = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    full_name    = Column(String, nullable=False)
+    email        = Column(String, nullable=True)
+    phone        = Column(String, nullable=True)
+    organization = Column(String, nullable=True)   # company or foundation name if applicable
+    notes        = Column(Text, nullable=True)
+    created_at   = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    donations = relationship("Donation", back_populates="donor", cascade="all, delete-orphan")
+
+
+class Donation(Base):
+    """
+    A single donation made by a donor, optionally tied to a program.
+    Amount is stored as a float; currency defaults to USD.
+    """
+    __tablename__ = "donations"
+
+    id         = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    donor_id   = Column(UUID(as_uuid=True), ForeignKey("donors.id"), nullable=False)
+    # program_id is optional — some donations are unrestricted (not tied to a program)
+    program_id = Column(UUID(as_uuid=True), ForeignKey("programs.id"), nullable=True)
+    amount     = Column(String, nullable=False)   # stored as string to avoid float precision issues
+    currency   = Column(String, default="USD", nullable=False)
+    date       = Column(String, nullable=True)    # ISO date string (YYYY-MM-DD)
+    notes      = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    donor   = relationship("Donor", back_populates="donations")
+    program = relationship("Program")
