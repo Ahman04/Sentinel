@@ -59,7 +59,7 @@ On first run, a default admin account is created automatically:
 | Email | `admin@sentinel.io` |
 | Password | `admin123` |
 
-> Change this password immediately after first login in a production environment.
+
 
 ---
 

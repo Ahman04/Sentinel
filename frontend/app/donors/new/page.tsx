@@ -11,7 +11,7 @@ import { getToken } from "@/lib/auth";
 
 export default function NewDonorPage() {
   const router = useRouter();
-
+ // Form state - could be optimized with useReducer or a form library, but this is straightforward enough for now
   const [fullName, setFullName]         = useState("");
   const [email, setEmail]               = useState("");
   const [phone, setPhone]               = useState("");
