@@ -8,8 +8,9 @@ UUIDs are used as primary keys for security and scalability.
 
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Boolean, DateTime
+from sqlalchemy import Column, String, Boolean, DateTime, Text, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 
@@ -40,3 +41,35 @@ class User(Base):
 
     # Audit timestamp — set once on creation, never updated
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    # Programs this user is assigned to
+    programs = relationship("ProgramMember", back_populates="user", cascade="all, delete-orphan")
+
+
+class Program(Base):
+    __tablename__ = "programs"
+
+    id          = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name        = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    # status: active | completed | paused
+    status      = Column(String, default="active", nullable=False)
+    start_date  = Column(String, nullable=True)   # stored as ISO date string (YYYY-MM-DD)
+    created_at  = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    members = relationship("ProgramMember", back_populates="program", cascade="all, delete-orphan")
+
+
+class ProgramMember(Base):
+    """Join table linking users to programs."""
+    __tablename__ = "program_members"
+
+    id         = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    program_id = Column(UUID(as_uuid=True), ForeignKey("programs.id"), nullable=False)
+    user_id    = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    # role within the program e.g. "coordinator", "field_staff", "volunteer"
+    role       = Column(String, default="member", nullable=False)
+    joined_at  = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    program = relationship("Program", back_populates="members")
+    user    = relationship("User", back_populates="programs")

@@ -74,3 +74,50 @@ class TokenResponse(BaseModel):
     """Returned after a successful login."""
     access_token: str
     token_type: str = "bearer"
+
+
+# ---------------------------------------------------------------------------
+# Programs
+# ---------------------------------------------------------------------------
+
+class ProgramCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    status: str = "active"
+    start_date: Optional[str] = None
+
+
+class ProgramUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
+    start_date: Optional[str] = None
+
+
+class ProgramMemberResponse(BaseModel):
+    user_id: uuid.UUID
+    full_name: str
+    email: str
+    role: str
+    joined_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ProgramResponse(BaseModel):
+    id: uuid.UUID
+    name: str
+    description: Optional[str]
+    status: str
+    start_date: Optional[str]
+    created_at: datetime
+    member_count: int = 0
+
+    class Config:
+        from_attributes = True
+
+
+class AddMemberPayload(BaseModel):
+    user_id: uuid.UUID
+    role: str = "member"

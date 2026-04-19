@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from app.database import engine, SessionLocal, Base
 from app.models import User
 from app.auth import hash_password
-from app.routers import auth, users
+from app.routers import auth, users, programs
 
 # Creates all tables defined in models.py if they don't already exist
 Base.metadata.create_all(bind=engine)
@@ -36,6 +36,7 @@ app.add_middleware(
 # Register route groups
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(users.router, prefix="/users", tags=["users"])
+app.include_router(programs.router, prefix="/programs", tags=["programs"])
 
 
 @app.on_event("startup")

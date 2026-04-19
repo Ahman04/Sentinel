@@ -119,3 +119,100 @@ export async function deleteUser(token: string, id: string): Promise<void> {
   });
   await checkResponse(res);
 }
+
+// ── Programs ───────────────────────────────────────────────────────────────
+
+export interface Program {
+  id: string;
+  name: string;
+  description: string | null;
+  status: "active" | "completed" | "paused";
+  start_date: string | null;
+  created_at: string;
+  member_count: number;
+}
+
+export interface ProgramMember {
+  user_id: string;
+  full_name: string;
+  email: string;
+  role: string;
+  joined_at: string;
+}
+
+export interface CreateProgramPayload {
+  name: string;
+  description?: string;
+  status?: string;
+  start_date?: string;
+}
+
+export interface UpdateProgramPayload {
+  name?: string;
+  description?: string;
+  status?: string;
+  start_date?: string;
+}
+
+export async function listPrograms(token: string): Promise<Program[]> {
+  const res = await fetch(`${BASE_URL}/programs`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function getProgram(token: string, id: string): Promise<Program> {
+  const res = await fetch(`${BASE_URL}/programs/${id}`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function createProgram(token: string, payload: CreateProgramPayload): Promise<Program> {
+  const res = await fetch(`${BASE_URL}/programs`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function updateProgram(token: string, id: string, payload: UpdateProgramPayload): Promise<Program> {
+  const res = await fetch(`${BASE_URL}/programs/${id}`, {
+    method: "PUT",
+    headers: headers(token),
+    body: JSON.stringify(payload),
+  });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function deleteProgram(token: string, id: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/programs/${id}`, {
+    method: "DELETE",
+    headers: headers(token),
+  });
+  await checkResponse(res);
+}
+
+export async function listProgramMembers(token: string, programId: string): Promise<ProgramMember[]> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/members`, { headers: headers(token) });
+  await checkResponse(res);
+  return res.json();
+}
+
+export async function addProgramMember(token: string, programId: string, userId: string, role: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/members`, {
+    method: "POST",
+    headers: headers(token),
+    body: JSON.stringify({ user_id: userId, role }),
+  });
+  await checkResponse(res);
+}
+
+export async function removeProgramMember(token: string, programId: string, userId: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/programs/${programId}/members/${userId}`, {
+    method: "DELETE",
+    headers: headers(token),
+  });
+  await checkResponse(res);
+}
