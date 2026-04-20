@@ -108,6 +108,31 @@ On first run, a default admin account is created automatically:
 
 ---
 
+## Testing
+
+### Run Backend Tests
+
+```bash
+docker-compose exec backend pytest
+```
+
+### What was tested
+
+**Automated tests (pytest + httpx):**
+- Login with valid credentials returns a JWT token
+- Login with wrong password returns 401
+- Unauthenticated requests to protected endpoints return 401
+- Non-admin users cannot access admin-only endpoints (403)
+- Default admin account is seeded on first run
+
+**Manual testing:**
+- All CRUD flows tested for Users, Programs, Beneficiaries, and Donors
+- Role-based access verified — staff cannot see Users, Donors, or programs they are not assigned to
+- Admin and staff dashboard stats verified to show correct scoped data
+- API endpoints tested directly via Swagger UI at `http://localhost:8000/docs`
+
+---
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
